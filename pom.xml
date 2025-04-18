@@ -17,6 +17,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <allure.version>2.27.0</allure.version>
     <surefire.version>3.2.5</surefire.version>
+    <junit.version>5.10.0</junit.version>
   </properties>
 
   <dependencies>
@@ -36,14 +37,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.10.0</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- TestNG -->
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>7.10.2</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- Jackson -->
@@ -85,27 +79,24 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire.version}</version>
         <configuration>
-          <properties>
-            <property>
-              <name>listener</name>
-              <value>io.qameta.allure.junit5.AllureJunit5</value>
-            </property>
-          </properties>
-          <!-- Ensure JUnit 5 tests are included -->
+          <testFailureIgnore>false</testFailureIgnore>
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <!-- Optional: Exclude TestNG if only using JUnit -->
-          <!-- <excludes>
-              <exclude>**/*TestNG.java</exclude>
-          </excludes> -->
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+          </systemPropertyVariables>
         </configuration>
         <dependencies>
-          <!-- Ensure JUnit 5 provider -->
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.0</version>
+            <version>${junit.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -116,8 +107,30 @@
         <version>2.12.0</version>
         <configuration>
           <reportVersion>${allure.version}</reportVersion>
-          <reportDirectory>${project.basedir}/allure-report</reportDirectory>
+          <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
         </configuration>
+      </plugin>
+      <!-- Maven Antrun Plugin for custom report directory -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-allure-report</id>
+            <phase>site</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${project.build.directory}/allure-report">
+                  <fileset dir="${project.build.directory}/site/allure-maven-plugin"/>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
