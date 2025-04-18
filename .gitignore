@@ -5,6 +5,8 @@ target/
 
 ### Reports ###
 allure-results/
+allure-report
+.allure
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
