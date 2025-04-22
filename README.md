@@ -6,4 +6,5 @@
 | 2. Palindrome                    | https://github.com/lisandrofernando/JavaStreams/pull/2 |
 | 3. Longest Palindromic Substring | https://github.com/lisandrofernando/JavaStreams/pull/3 |
 | 4. Prime Numbers                 | https://github.com/lisandrofernando/JavaStreams/pull/5 |
+| 5. Bubble Sort                   | 
 
