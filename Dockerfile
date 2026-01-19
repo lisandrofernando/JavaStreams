@@ -1,5 +1,8 @@
-# Use Maven with OpenJDK 17
-FROM maven:3.9.4-openjdk-17-slim
+# Use Eclipse Temurin JDK 17 and install Maven
+FROM eclipse-temurin:17-jdk-alpine
+
+# Install Maven
+RUN apk add --no-cache maven
 
 # Set working directory
 WORKDIR /app
