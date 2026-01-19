@@ -8,13 +8,13 @@ RUN apk add --no-cache maven
 WORKDIR /app
 
 # Copy pom.xml first for better layer caching
-COPY JavaStreams/pom.xml .
+COPY pom.xml .
 
 # Download dependencies
 RUN mvn dependency:go-offline -B
 
 # Copy source code
-COPY JavaStreams/src ./src
+COPY src ./src
 
 # Build the application
 RUN mvn clean compile -B
