@@ -1,11 +1,8 @@
-# Use OpenJDK 8 as base image to match project requirements
-FROM openjdk:8-jdk-alpine
+# Use Maven with OpenJDK 17
+FROM maven:3.9.4-openjdk-17-slim
 
 # Set working directory
 WORKDIR /app
-
-# Install Maven
-RUN apk add --no-cache maven
 
 # Copy pom.xml first for better layer caching
 COPY JavaStreams/pom.xml .
