@@ -1,8 +1,10 @@
-# Use Eclipse Temurin JDK 17 and install Maven
-FROM eclipse-temurin:17-jdk-alpine
+# Use Eclipse Temurin JDK 17 (Ubuntu-based, supports arm64 natively)
+FROM eclipse-temurin:17-jdk
 
-# Install Maven
-RUN apk add --no-cache maven
+# Install Maven (Ubuntu/Debian package manager)
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
